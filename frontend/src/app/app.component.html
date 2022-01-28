@@ -5,16 +5,19 @@
 <div class="content">
   <mat-card>
     <mat-card-content>
-      <form fxLayout="column">
+      <form fxLayout="column" #f=ngForm>
         <div fxLayout="row">
           <mat-form-field
             appearance="outline"
             fxFlex.xs="100%"
             fxFlex="50%">
             <mat-label>Decoded message</mat-label>
-            <textarea matInput
+            <textarea name="decoded"
+                      matInput
                       cdkTextareaAutosize
-                      cdkAutosizeMinRows="3"></textarea>
+                      cdkAutosizeMinRows="3"
+                      ngModel
+                      #decoded="ngModel"></textarea>
           </mat-form-field>
         </div>
 
@@ -24,14 +27,29 @@
             fxFlex.xs="100%"
             fxFlex="30%">
             <mat-label>Password</mat-label>
-            <input type="password" matInput>
-            <!--    <mat-hint>Hint</mat-hint>-->
+            <input type="password"
+                   name="password"
+                   required
+                   matInput
+                   ngModel
+                   #password="ngModel">
+            <mat-hint *ngIf="password.touched && password.errors?.['required']">Enter your password!</mat-hint>
           </mat-form-field>
-          <button class="send-btn" mat-raised-button color="primary">
-            <mat-icon>arrow_upward</mat-icon>
-          </button>
-          <button class="send-btn" mat-raised-button color="primary">
+          <button type="button"
+                  class="send-btn"
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="!password.value || !decoded.value"
+                  (click)="encodeMessage()">
             <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button type="button"
+                  class="send-btn"
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="!password.value || !encoded.value"
+                  (click)="decodeMessage()">
+            <mat-icon>arrow_upward</mat-icon>
           </button>
         </div>
 
@@ -41,10 +59,12 @@
             fxFlex.xs="100%"
             fxFlex="50%">
             <mat-label>Encoded message</mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="3"></textarea>
+            <textarea name="encoded"
+                      matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="3"
+                      ngModel
+                      #encoded="ngModel"></textarea>
           </mat-form-field>
         </div>
       </form>
