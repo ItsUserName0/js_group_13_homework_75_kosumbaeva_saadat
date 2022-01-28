@@ -9,6 +9,9 @@ app.use(express.json());
 
 app.post('/encode', (req, res, next) => {
   try {
+    if (!req.body.password || !req.body.message) {
+      return res.status(404).send({message: 'Password and message are required!'});
+    }
     const encodedText = Cipher(req.body.password).crypt(req.body.message);
     return res.send({encoded: encodedText});
   } catch (e) {
@@ -17,6 +20,9 @@ app.post('/encode', (req, res, next) => {
 });
 app.post('/decode', (req, res, next) => {
   try {
+    if (!req.body.password || !req.body.message) {
+      return res.status(404).send({message: 'Password and message are required!'});
+    }
     const decodedText = Decipher(req.body.password).crypt(req.body.message);
     return res.send({decoded: decodedText});
   } catch (e) {

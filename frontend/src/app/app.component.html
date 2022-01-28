@@ -32,14 +32,19 @@
                    required
                    matInput
                    ngModel
+                   appPassword
                    #password="ngModel">
-            <mat-hint *ngIf="password.touched && password.errors?.['required']">Enter your password!</mat-hint>
+            <mat-hint align="start" *ngIf="password.touched && password.errors?.['required']">Enter your password!
+            </mat-hint>
+            <mat-hint align="end" *ngIf="password.touched && password.errors?.['password']">Password should contain only
+              numbers and letters!
+            </mat-hint>
           </mat-form-field>
           <button type="button"
                   class="send-btn"
                   mat-raised-button
                   color="primary"
-                  [disabled]="!password.value || !decoded.value"
+                  [disabled]="!password.value || !decoded.value || f.invalid"
                   (click)="encodeMessage()">
             <mat-icon>arrow_downward</mat-icon>
           </button>
@@ -47,7 +52,7 @@
                   class="send-btn"
                   mat-raised-button
                   color="primary"
-                  [disabled]="!password.value || !encoded.value"
+                  [disabled]="!password.value || !encoded.value || f.invalid"
                   (click)="decodeMessage()">
             <mat-icon>arrow_upward</mat-icon>
           </button>

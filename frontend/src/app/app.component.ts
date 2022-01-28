@@ -15,7 +15,7 @@ export class AppComponent {
   }
 
   encodeMessage() {
-    if (this.form.value.decoded === '') {
+    if (!this.form.value.decoded || !this.form.value.password) {
       return;
     }
     const data = new Data(this.form.value.password, this.form.value.decoded);
@@ -25,7 +25,7 @@ export class AppComponent {
   }
 
   decodeMessage() {
-    if (this.form.value.encoded === '') {
+    if (!this.form.value.encoded || !this.form.value.password) {
       return;
     }
     const data = new Data(this.form.value.password, this.form.value.encoded);
